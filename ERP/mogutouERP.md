@@ -1,10 +1,10 @@
 
 
-The system contains hard-coded database usernames and passwords.👇
+The system has a hard-coded JWT key.👇
 
 <img width="1620" height="997" alt="image" src="https://github.com/user-attachments/assets/c1dca6f0-68dd-49b8-b0e7-11cd3058beb4" />
 
-The system has a hard-coded JWT key.👇
+The system contains hard-coded database usernames and passwords.👇
 
 <img width="1701" height="997" alt="image" src="https://github.com/user-attachments/assets/bb347576-ff62-465a-879b-ccf6103df051" />
 
