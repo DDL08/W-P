@@ -14,6 +14,18 @@
 
 <img width="2560" height="1528" alt="image" src="https://github.com/user-attachments/assets/06e5510b-a1f8-46ac-b5c7-d731eebf5db3" />
 
+<img width="2560" height="1528" alt="image" src="https://github.com/user-attachments/assets/e98f41a6-91e1-421f-89de-fc6dc4cd2652" />
+
+Here, the SQL string in `next_node.handler` is replaced with a plain string before `cursor.execute(handler)` is called directly. No parameters are used.
+The `handler` itself comes from a model field.
+
+
+
+Triggering Conditions
+It is called when the workflow starts:
+workflow/views.py:80+
+
+<img width="2560" height="1528" alt="image" src="https://github.com/user-attachments/assets/4400feca-e6e3-4dd2-bb32-d1b74db8770f" />
 
 
 3.SECRET_KEY is hardcoded in the repository, leading to information leakage.👇
