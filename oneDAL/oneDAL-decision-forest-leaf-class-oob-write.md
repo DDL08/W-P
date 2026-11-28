@@ -2,21 +2,24 @@
 
 > Public status: Only CVE-2022-25905 (search path, unrelated) is public; no CVE for model deserialization was found.
 
-## Submission Fields (per submit.txt)
+## Submission Fields
 
 - **Vendor**: Intel
 - **Product**: oneDAL
 - **Version or Commit**: de7fa35
 - **Vulnerability Class**: Out-of-bounds Write
 
-> ⚠️ Intel is not in the list of 110 vendors in 公司名称.txt, so the platform may not allow selecting this Vendor.
 
 ## Vulnerability Submission Details
 
 - **Product and Version**: oneapi-src/oneDAL
 - **Vulnerability Name**: oneDAL decision forest leaf class label out-of-bounds write vulnerability
 - **Product Usage**: GitHub oneapi-src/oneDAL 654 stars (as of 2026-11-26); AI-related native/binary project.
-- **Exploitation Conditions**: □No authentication required  □Requires low-privilege account  ☑Requires user interaction  □Only triggered under non-default configuration
+
+<img width="2556" height="1451" alt="image" src="https://github.com/user-attachments/assets/ff5ce1b4-8595-4e38-8764-d2b208b3ba1e" />
+
+
+- **Exploitation Conditions**: Requires user interaction
 - **Description**:
 
   Summary: oneDAL decision forest classification prediction uses the model leaf class label as an index into the output buffer without validating it against nClasses, causing a heap out-of-bounds write.
@@ -124,14 +127,8 @@ print("RESULT: %s" % ("SIGSEGV in predictByTreesWithoutConversion (PoC succeeded
 sys.exit(0 if ok else 1)
 ```
 
-## Attachment Screenshots
+<img width="984" height="372" alt="image" src="https://github.com/user-attachments/assets/320ab124-2086-4c53-85ed-b23961331441" />
 
-![Attachment 1](../../oneDAL/markdown/assets/image1.png)
-
-![Attachment 2](../../oneDAL/markdown/assets/image2.png)
-
----
-> Original form: `oneDAL/PoC/oneDAL-46-forest/漏洞提交详情表.docx`
 
 ## Remediation
 
