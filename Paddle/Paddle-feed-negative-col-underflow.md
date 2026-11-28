@@ -9,14 +9,17 @@
 - **Version or Commit**: 2.6.2
 - **Vulnerability Class**: Access of Memory Location Before Start of Buffer
 
-> ⚠️ Baidu is not in the 110-vendor list in 公司名称.txt, so the platform may not allow selecting this Vendor.
 
 ## Vulnerability Submission Details
 
 - **Product and Version**: Baidu PaddlePaddle
 - **Vulnerability Name**: Paddle feed negative col heap underflow vulnerability
 - **Product Usage**: GitHub PaddlePaddle/Paddle 24,154 stars (2026-11-26 data); a deep learning framework widely used in China, with inference models distributed as .pdmodel/ProgramDesc.
-- **Exploitation Conditions**: □ No authentication  □ Low-privileged account required  ☑ User interaction required  □ Only triggered under non-default configuration
+
+<img width="2556" height="1470" alt="image" src="https://github.com/user-attachments/assets/a8572cd1-58e4-4eae-8094-d0f10dd7ce94" />
+
+
+- **Exploitation Conditions**: User interaction required
 - **Description**:
 
   Summary: Paddle's legacy-IR feed/fetch operators take the signed col attribute from the model protobuf straight as a size_t index without validating col>=0. With col=-1 the value wraps to SIZE_MAX, the vector is resized to zero, and a write goes to vector[SIZE_MAX], i.e. before the start of the buffer, giving a heap underflow write / crash.
@@ -81,9 +84,7 @@ Validate `col >= 0` and that it does not exceed the allowed maximum input count;
 
 ## Attachment Screenshots
 
-![Attachment 1](../../Paddle/markdown/assets/image1.png)
 
-![Attachment 2](../../Paddle/markdown/assets/image2.png)
 
 ---
 > Original form: `Paddle/PoC/Paddle-19-feed/漏洞提交详情表.docx`
