@@ -1,4 +1,4 @@
-# ncnn-10-GroupNorm Channel Count Out-of-Bounds
+# ncnn-GroupNorm Channel Count Out-of-Bounds
 
 > Public status: No public CVE found for the same issue; ncnn also has CVE-2026-50144/112073/112074 (different functions/fields).
 
@@ -15,7 +15,8 @@
 - **Vulnerability Name**: ncnn GroupNorm channel count out-of-bounds vulnerability
 - **Product Usage**: GitHub Tencent/ncnn (a C++ framework widely used for mobile/embedded inference; 24.1k stars.)
 
-![Attachment 1](F:/Share/CVE%E6%8F%90%E4%BA%A4%E6%A8%A1%E6%9D%BF/%E6%8F%90%E4%BA%A4%E5%8C%BA/ncnn/ncnn-GroupNorm-channel-out-of-bounds.assets/image1.png)
+<img width="2553" height="1470" alt="image" src="https://github.com/user-attachments/assets/809f039f-f711-4ba9-91dc-fa865b70496a" />
+
 
 - **Exploitation Conditions**:    User interaction required
 - **Description**: The channels parameter of ncnn GroupNorm comes from the .param file and is not validated against the actual channel count of the input blob. When channels is far larger than the real channel count, channel_range only performs pointer arithmetic, and groupnorm loops over the fake channels for reads and writes, causing a wide-range heap out-of-bounds access.
@@ -121,7 +122,8 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-![Attachment 2](../../ncnn/markdown/assets/image2.png)
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/237610e9-36ee-4a09-b940-9866fe5d77f3" />
+
 
 ## Remediation
 
