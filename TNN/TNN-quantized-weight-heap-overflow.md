@@ -16,6 +16,7 @@
 - **Product Usage**: GitHub Tencent/TNN 4,667 stars (2026-11-25 GitHub API); a high-performance inference framework open-sourced by Tencent, supporting multi-backend deployment on mobile/desktop/server.
 
 <img width="2549" height="1467" alt="image" src="https://github.com/user-attachments/assets/1533c242-32fe-4da2-a5af-c8c249a35c5f" />
+
 - **Exploitation Conditions**: User interaction required
 - **Description**: When TNN loads a model in ncnn format, the quantized-weight branch mixes the attacker-controllable weight count w with a fixed 256-entry/1024-byte buffer, causing a heap out-of-bounds write when w<253 or w>256.
 - **Details**: Source: weight_data_size in the ncnn .param text (conv_layer_interpreter.cc:105 etc.). Sink: source/tnn/interpreter/ncnn/serializer.h:94-111. When w<253, index_array.resize(AlignSize(w,4)) is followed by a fixed 256-byte read; when w>256, after a RawBuffer (1024 bytes) a loop writes w floats. Trigger: load a malicious .param/.bin with MODEL_TYPE_NCNN.
