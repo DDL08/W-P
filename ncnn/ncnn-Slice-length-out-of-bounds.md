@@ -15,7 +15,8 @@
 - **Vulnerability Name**: ncnn Slice length out-of-bounds read vulnerability
 - **Product Usage**: GitHub Tencent/ncnn (a C++ framework widely used for mobile/embedded inference. 24.1k stars)
 
-![Attachment 1](F:/Share/CVE%E6%8F%90%E4%BA%A4%E6%A8%A1%E6%9D%BF/ncnn/markdown/ncnn-13-Slice%E9%95%BF%E5%BA%A6%E8%B6%8A%E7%95%8C%E8%AF%BB.assets/image1.png)
+<img width="2553" height="1470" alt="image" src="https://github.com/user-attachments/assets/7685d426-cdd8-4749-aaac-3ab9eec335ac" />
+
 
 - **Exploitation Conditions**: User interaction required
 - **Description**: The ncnn Slice layer takes slices/indices from the .param directly as output lengths without validating them against the actual length of the input blob. When slices is far larger than the input length, memcpy reads a large amount of data from the short input buffer, causing a heap out-of-bounds read and writing adjacent memory into the output tensor.
@@ -149,7 +150,8 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-![Attachment 2](F:/Share/CVE%E6%8F%90%E4%BA%A4%E6%A8%A1%E6%9D%BF/ncnn/markdown/ncnn-13-Slice%E9%95%BF%E5%BA%A6%E8%B6%8A%E7%95%8C%E8%AF%BB.assets/image2.png)
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/a83f5c61-916f-47ed-9b42-1af13be964b9" />
+
 
 ## Remediation
 
