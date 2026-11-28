@@ -6,7 +6,7 @@
 
 - **Vendor**: Tencent
 - **Product**: ncnn
-- **Version or Commit**: b0f1deb6183d7b3b5cd70dd47c95bb6c91ee038e
+- **Version or Commit**: 1.0.20261020 (latest release, vulnerable code confirmed); dynamic test on master b0f1deb6183d7b3b5cd70dd47c95bb6c91ee038e (2026-11-25)
 - **Vulnerability Class**: Out-of-Bounds Read
 
 ## Vulnerability Submission Details
