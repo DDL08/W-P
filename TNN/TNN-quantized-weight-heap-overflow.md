@@ -79,7 +79,7 @@ Dependencies:
     Python 3.8+, standard library only
     Local ASAN reproduction binary: /home/ddl/ai-audit/repro/tnn/poc
 Notes:
-    The script builds the malicious input and invokes the local ASAN harness, printing the AddressSanitizer verdict lines. The full chain and verification screenshot are in the bundled submission form (screenshot on the last page).
+    The script builds the malicious input and invokes the local ASAN harness, printing the AddressSanitizer verdict lines.
 
 ```python
 #!/usr/bin/env python3
