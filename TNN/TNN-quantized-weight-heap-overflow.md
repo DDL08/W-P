@@ -14,7 +14,9 @@
 - **Product and Version**: Tencent TNN
 - **Vulnerability Name**: TNN ncnn quantized weight parsing heap buffer overflow vulnerability
 - **Product Usage**: GitHub Tencent/TNN 4,667 stars (2026-11-25 GitHub API); a high-performance inference framework open-sourced by Tencent, supporting multi-backend deployment on mobile/desktop/server.
-- **Exploitation Conditions**: □ No authentication  □ Low-privileged account required  ☑ User interaction required  □ Only triggered under non-default configuration
+
+<img width="2549" height="1467" alt="image" src="https://github.com/user-attachments/assets/1533c242-32fe-4da2-a5af-c8c249a35c5f" />
+- **Exploitation Conditions**: User interaction required
 - **Description**: When TNN loads a model in ncnn format, the quantized-weight branch mixes the attacker-controllable weight count w with a fixed 256-entry/1024-byte buffer, causing a heap out-of-bounds write when w<253 or w>256.
 - **Details**: Source: weight_data_size in the ncnn .param text (conv_layer_interpreter.cc:105 etc.). Sink: source/tnn/interpreter/ncnn/serializer.h:94-111. When w<253, index_array.resize(AlignSize(w,4)) is followed by a fixed 256-byte read; when w>256, after a RawBuffer (1024 bytes) a loop writes w floats. Trigger: load a malicious .param/.bin with MODEL_TYPE_NCNN.
 - **Reproduction Environment**: Ubuntu Linux 6.11.0-29, g++ 14, AddressSanitizer; TNN commit f0cb08129a05c5b60f08e4ef66042a54a883a56a (2025-03-25). The minimal harness directly compiles the real serializer.h + RawBuffer without building the full inference library.
@@ -68,9 +70,7 @@ A heap out-of-bounds write of controllable content (starting at 256 bytes), whic
 
 Require `w == 256` for the quantized branch (or validate against the actual format upper bound); `index_array` should read only `min(256, AlignSize(w,4))` bytes; allocate the output `RawBuffer` as `w*sizeof(float)` and validate; set an upper bound on `weight_data_size` and validate it against the remaining length of the `.bin`.
 
-## Attachment Screenshots
 
-![Attachment 1](../../TNN/markdown/assets/image1.png)
+<img width="1011" height="396" alt="image" src="https://github.com/user-attachments/assets/2ca783fe-a8c2-423a-a9ce-d0900bcf380b" />
 
----
-> Original form: `TNN/报告/TNN-量化权重-表单.docx`
+
